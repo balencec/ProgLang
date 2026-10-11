@@ -7,12 +7,13 @@ ostalis = n - uehali
 print(uehali, ostalis)
 ```
 
-### Çàäà÷à 2 – Ñóììà ïîëîâèí
-`s = input()`
-`mid = len(s) // 2`
-`first = int(s[:mid])`
-`second = int(s[mid:])`
-`print(first + second)`
+### Задача 2 – Сумма половин
+```s = input()
+mid = len(s) // 2
+first = int(s[:mid])
+second = int(s[mid:])
+print(first + second)
+```
 
 ### Çàäà÷à 3 – Æàæäà
 `n = int(input())`
