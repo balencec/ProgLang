@@ -1,29 +1,31 @@
-### Задача 1 – Маршрутка
-`n = int(input())`
-`mest = 15`
-`uehali = (n // mest) * mest`
-`ostalis = n - uehali`
-`print(uehali, ostalis)`
+### Р—Р°РґР°С‡Р° 1 вЂ“ РњР°СЂС€СЂСѓС‚РєР°
+```python
+n = int(input())
+mest = 15
+uehali = (n // mest) * mest
+ostalis = n - uehali
+print(uehali, ostalis)
+```
 
-### Задача 2 – Сумма половин
+### Г‡Г Г¤Г Г·Г  2 вЂ“ Г‘ГіГ¬Г¬Г  ГЇГ®Г«Г®ГўГЁГ­
 `s = input()`
 `mid = len(s) // 2`
 `first = int(s[:mid])`
 `second = int(s[mid:])`
 `print(first + second)`
 
-### Задача 3 – Жажда
+### Г‡Г Г¤Г Г·Г  3 вЂ“ Г†Г Г¦Г¤Г 
 `n = int(input())`
 `voda = n / 3`
 `print(f"{voda:.3f}")`
 
-### Задача 4 – Рубли и копейки
+### Г‡Г Г¤Г Г·Г  4 вЂ“ ГђГіГЎГ«ГЁ ГЁ ГЄГ®ГЇГҐГ©ГЄГЁ
 `price = float(input())`
 `rub = int(price)`
 `kop = round((price - rub) * 100)`
 `print(rub, "rub", kop, "kop")`
 
-### Задача 5 – Отчет
+### Г‡Г Г¤Г Г·Г  5 вЂ“ ГЋГІГ·ГҐГІ
 `n, m, c, k = map(int, input().split())`
 `vsego = n * m`
 `nuzhno = vsego - k`
@@ -33,20 +35,20 @@
 `    pachek = (nuzhno + 199) // 200`
 `    print(pachek * c)`
 
-### Задача 6 – Подарки
+### Г‡Г Г¤Г Г·Г  6 вЂ“ ГЏГ®Г¤Г Г°ГЄГЁ
 `n, m, k = map(int, input().split())`
 `vsego = n * m`
 `korobok = (vsego + k - 1) // k`
 `print(korobok)`
 
-### Задача 7 – Датчик пульса
+### Г‡Г Г¤Г Г·Г  7 вЂ“ Г„Г ГІГ·ГЁГЄ ГЇГіГ«ГјГ±Г 
 `n, t = input().split()`
 `n = int(n)`
 `t = float(t)`
 `udarov = n * 60 / t`
 `print(int(udarov) if udarov == int(udarov) else int(udarov) + 1)`
 
-### Задача 8 – Точки на прямой
+### Г‡Г Г¤Г Г·Г  8 вЂ“ Г’Г®Г·ГЄГЁ Г­Г  ГЇГ°ГїГ¬Г®Г©
 `x, y = map(float, input().split())`
 `start = int(x) if x == int(x) else int(x) + 1`
 `end = int(y)`
@@ -55,7 +57,7 @@
 `else:`
 `    print(end - start + 1)`
 
-### Задача 9 – Буквы и цифры
+### Г‡Г Г¤Г Г·Г  9 вЂ“ ГЃГіГЄГўГ» ГЁ Г¶ГЁГґГ°Г»
 `s = input()`
 `total = 0`
 `for ch in s:`
@@ -63,7 +65,7 @@
 `        total += int(ch)`
 `print(total)`
 
-### Задача 10 – Скобки в зазеркалье
+### Г‡Г Г¤Г Г·Г  10 вЂ“ Г‘ГЄГ®ГЎГЄГЁ Гў Г§Г Г§ГҐГ°ГЄГ Г«ГјГҐ
 `s = input()`
 `result = ''`
 `for i in range(len(s) - 1, -1, -1):`
@@ -73,14 +75,14 @@
 `        result += '('`
 `print(result)`
 
-### Задача 11 – Разворот слов
+### Г‡Г Г¤Г Г·Г  11 вЂ“ ГђГ Г§ГўГ®Г°Г®ГІ Г±Г«Г®Гў
 `s = input().split()`
 `result = []`
 `for word in s:`
 `    result.append(word[::-1])`
 `print(' '.join(result))`
 
-### Задача 12 – Минимальные делители
+### Г‡Г Г¤Г Г·Г  12 вЂ“ ГЊГЁГ­ГЁГ¬Г Г«ГјГ­Г»ГҐ Г¤ГҐГ«ГЁГІГҐГ«ГЁ
 `numbers = input().split()`
 `result = []`
 `for num in numbers:`
@@ -91,7 +93,7 @@
 `    result.append(str(d))`
 `print(' '.join(result))`
 
-### Задача 13 – Сумма делителей
+### Г‡Г Г¤Г Г·Г  13 вЂ“ Г‘ГіГ¬Г¬Г  Г¤ГҐГ«ГЁГІГҐГ«ГҐГ©
 `n = int(input())`
 `total = 0`
 `for d in range(1, n):`
@@ -99,7 +101,7 @@
 `        total += d`
 `print(total)`
 
-### Задача 14 – Игра в пробке
+### Г‡Г Г¤Г Г·Г  14 вЂ“ Г€ГЈГ°Г  Гў ГЇГ°Г®ГЎГЄГҐ
 `n = int(input())`
 `masha = 0`
 `dasha = 0`
@@ -111,7 +113,7 @@
 `        dasha += 1`
 `print(masha, ':', dasha, sep='')`
 
-### Задача 15 – Прибыль
+### Г‡Г Г¤Г Г·Г  15 вЂ“ ГЏГ°ГЁГЎГ»Г«Гј
 `n = int(input())`
 `total = 0`
 `for i in range(n):`
