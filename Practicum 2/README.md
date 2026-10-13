@@ -81,18 +81,6 @@ for ch in s:
 print(total)
 ```
 
-### Задача 10 – Скобки в зазеркалье
-```python
-s = input()
-result = ''
-for i in range(len(s) - 1, -1, -1):
-    if s[i] == '(':
-        result += ')'
-    else:
-        result += '('
-print(result)
-```
-
 ### Задача 11 – Разворот слов
 ```python
 s = input().split()
