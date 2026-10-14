@@ -60,17 +60,6 @@ udarov = n * 60 / t
 print(int(udarov) if udarov == int(udarov) else int(udarov) + 1)
 ```
 
-### Задача 8 – Точки на прямой
-```python
-x, y = map(float, input().split())
-start = int(x) if x == int(x) else int(x) + 1
-end = int(y)
-if end < start:
-    print(0)
-else:
-    print(end - start + 1)
-```
-
 ### Задача 9 – Буквы и цифры
 ```python
 s = input()
