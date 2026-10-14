@@ -70,15 +70,6 @@ for ch in s:
 print(total)
 ```
 
-### Задача 11 – Разворот слов
-```python
-s = input().split()
-result = []
-for word in s:
-    result.append(word[::-1])
-print(' '.join(result))
-```
-
 ### Задача 12 – Минимальные делители
 ```python
 numbers = input().split()
