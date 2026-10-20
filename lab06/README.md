@@ -20,37 +20,35 @@ int main() {
 
 #### Способ 1. `const auto Pi = acos(0) * 2;`
 
-* Полный код программы (`01/main1.cpp`):
-    ```cpp
-    #include <iostream>
-    #include <cmath>
-    int main() {
-       double x = 0;
-       const auto Pi = acos(0) * 2;
-       std::cout << Pi << std::endl;
-       return 0;
-    }
-    ```
+```cpp
+#include <iostream>
+#include <cmath>
+int main() {
+   double x = 0;
+   const auto Pi = acos(0) * 2;
+   std::cout << Pi << std::endl;
+   return 0;
+}
+```
 
-    ![Скриншот работы программы](01_1.png)
+![Скриншот работы программы](01_1.png)
 
 Программа компилируется и выводит `3.14159`. Функция `acos` вызывается без `std::`, так как `<cmath>` объявляет её также в глобальном пространстве имён (из языка C).
 
 #### Способ 2. `constexpr auto Pi = std::acos(0) * 2;`
 
-* Полный код программы (`01/main2.cpp`):
-    ```cpp
-    #include <iostream>
-    #include <cmath>
-    int main() {
-       double x = 0;
-       constexpr auto Pi = std::acos(0) * 2;
-       std::cout << Pi << std::endl;
-       return 0;
-    }
-    ```
+```cpp
+#include <iostream>
+#include <cmath>
+int main() {
+   double x = 0;
+   constexpr auto Pi = std::acos(0) * 2;
+   std::cout << Pi << std::endl;
+   return 0;
+}
+```
 
-    ![Скриншот работы программы](01_2.png)
+![Скриншот работы программы](01_2.png)
 
 Компилятор `g++` компилирует программу и выводит `3.14159`. Это происходит потому, что `g++` считает математические функции встроенными (builtin) и умеет вычислять их на этапе компиляции. По стандарту C++17/C++20 функция `std::acos` не является `constexpr`, поэтому другие компиляторы (например, `clang++` или MSVC) выдают ошибку:
 
@@ -58,37 +56,35 @@ int main() {
 
 #### Способ 3. `const auto Pi = acos(x) * 2;`
 
-* Полный код программы (`01/main3.cpp`):
-    ```cpp
-    #include <iostream>
-    #include <cmath>
-    int main() {
-       double x = 0;
-       const auto Pi = acos(x) * 2;
-       std::cout << Pi << std::endl;
-       return 0;
-    }
-    ```
+```cpp
+#include <iostream>
+#include <cmath>
+int main() {
+   double x = 0;
+   const auto Pi = acos(x) * 2;
+   std::cout << Pi << std::endl;
+   return 0;
+}
+```
 
-    ![Скриншот работы программы](01_3.png)
+![Скриншот работы программы](01_3.png)
 
 Программа компилируется и выводит `3.14159`. Значение `Pi` вычисляется во время выполнения программы, так как `x` - обычная переменная. После инициализации `Pi` изменить нельзя.
 
 #### Способ 4. `constexpr auto Pi = std::acos(x) * 2;`
 
-* Полный код программы (`01/main4.cpp`):
-    ```cpp
-    #include <iostream>
-    #include <cmath>
-    int main() {
-       double x = 0;
-       constexpr auto Pi = std::acos(x) * 2;
-       std::cout << Pi << std::endl;
-       return 0;
-    }
-    ```
+```cpp
+#include <iostream>
+#include <cmath>
+int main() {
+   double x = 0;
+   constexpr auto Pi = std::acos(x) * 2;
+   std::cout << Pi << std::endl;
+   return 0;
+}
+```
 
-    ![Скриншот ошибки компиляции](01_4.png)
+![Скриншот ошибки компиляции](01_4.png)
 
 Программа не компилируется:
 
@@ -101,38 +97,38 @@ int main() {
 * `const` означает только то, что значение нельзя изменить после инициализации. Само значение может вычисляться как при компиляции, так и при выполнении программы.
 * `constexpr` требует, чтобы значение было вычислено на этапе компиляции. Если это невозможно, компилятор выдаёт ошибку.
 
-| Способ | Компилируется | Константа этапа трансляции |
-|---|---|---|
-| `const auto Pi = acos(0) * 2;` | да | нет (константа времени выполнения) |
-| `constexpr auto Pi = std::acos(0) * 2;` | в `g++` да, по стандарту нет | да (в `g++`) |
-| `const auto Pi = acos(x) * 2;` | да | нет |
-| `constexpr auto Pi = std::acos(x) * 2;` | нет | - |
+В первом способе программа компилируется, но `Pi` является константой времени выполнения: её значение нельзя изменить, однако вычисляется оно при запуске программы.
 
-Таким образом, константа этапа трансляции объявляется только во втором варианте, и то лишь в компиляторе `g++` за счёт его расширения. Варианты 1 и 3 объявляют обычные константы, значения которых вычисляются при выполнении программы. Вариант 4 ошибочен, так как `x` не является константным выражением.
+Во втором способе `g++` компилирует программу и вычисляет `Pi` на этапе компиляции, то есть это константа этапа трансляции. По стандарту языка такая запись не допускается, поэтому в других компиляторах будет ошибка.
+
+В третьем способе программа компилируется, но `Pi` - обычная константа, значение которой вычисляется во время выполнения, так как зависит от переменной `x`.
+
+В четвёртом способе программа не компилируется, так как `x` не является константным выражением.
+
+Таким образом, константа этапа трансляции объявляется только во втором способе.
 
 ### Задание 2 **(2)**
 
 *Проверьте работу следующей программы на С++*
 
-* Полный код программы:
-    ```cpp
-    #include <iostream>
-    int main() {
-       {
-          int x, y;
-          std::cin >> x >> y;
-          std::cout << x+y << std::endl;
-       }
-       {
-          double x, y;
-          std::cin >> x >> y;
-          std::cout << x+y << std::endl;
-       }
-       return 0;
-    }
-    ```
+```cpp
+#include <iostream>
+int main() {
+   {
+      int x, y;
+      std::cin >> x >> y;
+      std::cout << x+y << std::endl;
+   }
+   {
+      double x, y;
+      std::cin >> x >> y;
+      std::cout << x+y << std::endl;
+   }
+   return 0;
+}
+```
 
-    ![Скриншот работы программы](02_1.png)
+![Скриншот работы программы](02_1.png)
 
 При вводе `3 4 1.5 2.25` программа выводит `7` и `3.75`.
 
@@ -152,23 +148,22 @@ int main() {
 
 *Проверьте работу следующего фрагмента программы на С++.*
 
-* Полный код программы:
-    ```cpp
-    #include <iostream>
-    int main() {
-       int s = 0;
-       for (int i = 0; i < 4; i++) {
-          for (int i = 0; i < 3; i++) {
-             s += i;
-          }
-          s += i;
-       }
-       std::cout << s << std::endl;
-       return 0;
-    }
-    ```
+```cpp
+#include <iostream>
+int main() {
+   int s = 0;
+   for (int i = 0; i < 4; i++) {
+      for (int i = 0; i < 3; i++) {
+         s += i;
+      }
+      s += i;
+   }
+   std::cout << s << std::endl;
+   return 0;
+}
+```
 
-    ![Скриншот работы программы](03_1.png)
+![Скриншот работы программы](03_1.png)
 
 *В результате каких вычислений был получен ответ? Дайте подробный ответ.*
 
@@ -199,17 +194,16 @@ int main() {
 
 *Проверьте работу следующего фрагмента программы на* **Python**.
 
-* Полный код программы:
-    ```python
-    s = 0
-    for i in range(4):
-       for i in range(3):
-          s += i
-       s += i
-    print(s)
-    ```
+```python
+s = 0
+for i in range(4):
+   for i in range(3):
+      s += i
+   s += i
+print(s)
+```
 
-    ![Скриншот работы программы](04_1.png)
+![Скриншот работы программы](04_1.png)
 
 *В результате каких вычислений был получен ответ? Дайте подробный ответ.*
 
@@ -244,66 +238,65 @@ int main() {
 
 *Напишите свой пример программы на* **С++**, *создающий и использующий пространства имен. Программа должна содержать не менее двух пространств имен.*
 
-* Полный код программы:
-    ```cpp
-    #include <iostream>
-    #include <string>
+```cpp
+#include <iostream>
+#include <string>
 
-    namespace Geometry {
-        const double Pi = 3.141592653589793;
+namespace Geometry {
+    const double Pi = 3.141592653589793;
 
-        double area(double r) {
-            return Pi * r * r;
-        }
-
-        std::string name() {
-            return "Geometry";
-        }
+    double area(double r) {
+        return Pi * r * r;
     }
 
-    namespace Finance {
-        double area(double width, double height) {
-            return width * height;
-        }
+    std::string name() {
+        return "Geometry";
+    }
+}
 
-        double percent(double sum, double rate) {
-            return sum * rate / 100;
-        }
-
-        std::string name() {
-            return "Finance";
-        }
-
-        namespace Tax {
-            const double Rate = 13.0;
-
-            double calc(double income) {
-                return percent(income, Rate);
-            }
-        }
+namespace Finance {
+    double area(double width, double height) {
+        return width * height;
     }
 
-    int main() {
-        std::cout << Geometry::name() << ": area(2) = "
-                  << Geometry::area(2) << std::endl;
-
-        std::cout << Finance::name() << ": area(3, 4) = "
-                  << Finance::area(3, 4) << std::endl;
-
-        std::cout << "Tax from 50000 = "
-                  << Finance::Tax::calc(50000) << std::endl;
-
-        namespace FT = Finance::Tax;
-        std::cout << "Tax rate = " << FT::Rate << "%" << std::endl;
-
-        using Geometry::Pi;
-        std::cout << "Pi = " << Pi << std::endl;
-
-        return 0;
+    double percent(double sum, double rate) {
+        return sum * rate / 100;
     }
-    ```
 
-    ![Скриншот работы программы](05_1.png)
+    std::string name() {
+        return "Finance";
+    }
+
+    namespace Tax {
+        const double Rate = 13.0;
+
+        double calc(double income) {
+            return percent(income, Rate);
+        }
+    }
+}
+
+int main() {
+    std::cout << Geometry::name() << ": area(2) = "
+              << Geometry::area(2) << std::endl;
+
+    std::cout << Finance::name() << ": area(3, 4) = "
+              << Finance::area(3, 4) << std::endl;
+
+    std::cout << "Tax from 50000 = "
+              << Finance::Tax::calc(50000) << std::endl;
+
+    namespace FT = Finance::Tax;
+    std::cout << "Tax rate = " << FT::Rate << "%" << std::endl;
+
+    using Geometry::Pi;
+    std::cout << "Pi = " << Pi << std::endl;
+
+    return 0;
+}
+```
+
+![Скриншот работы программы](05_1.png)
 
 *В программе объявлены два пространства имён* `Geometry` *и* `Finance`, *а также вложенное пространство имён* `Finance::Tax`.
 
@@ -316,61 +309,59 @@ int main() {
 
 *Рассмотрим следующий фрагмент программы. Эта программа 1000000 раз обменивает значения двух длинных строк с использованием третьей строки. Проверьте, насколько быстро она работает.*
 
-* Полный код программы (`06/main.cpp`):
-    ```cpp
-    #include <iostream>
-    #include <string>
-    #include <chrono>
-    int main() {
-       auto start = std::chrono::steady_clock::now();
+```cpp
+#include <iostream>
+#include <string>
+#include <chrono>
+int main() {
+   auto start = std::chrono::steady_clock::now();
 
-       std::string a(100000, 'a');
-       std::string b(100000, 'b');
-       for (int i=0;i<1000000;i++) {
-          std::string c(a);
-          a = b;
-          b = c;
-       }
-       std::cout << a[0] << b[0] << std::endl;
+   std::string a(100000, 'a');
+   std::string b(100000, 'b');
+   for (int i=0;i<1000000;i++) {
+      std::string c(a);
+      a = b;
+      b = c;
+   }
+   std::cout << a[0] << b[0] << std::endl;
 
-       auto end = std::chrono::steady_clock::now();
-       std::cout << "Time: "
-                 << std::chrono::duration<double>(end - start).count()
-                 << " s" << std::endl;
-       return 0;
-    }
-    ```
+   auto end = std::chrono::steady_clock::now();
+   std::cout << "Time: "
+             << std::chrono::duration<double>(end - start).count()
+             << " s" << std::endl;
+   return 0;
+}
+```
 
-    ![Скриншот работы программы](06_1.png)
+![Скриншот работы программы](06_1.png)
 
 Программа работает около `9` секунд (`9.11856 s`).
 
 *Попробуйте использовать для обмена значений строк функцию* **swap**.
 
-* Полный код программы (`06/swap.cpp`):
-    ```cpp
-    #include <iostream>
-    #include <string>
-    #include <chrono>
-    int main() {
-       auto start = std::chrono::steady_clock::now();
+```cpp
+#include <iostream>
+#include <string>
+#include <chrono>
+int main() {
+   auto start = std::chrono::steady_clock::now();
 
-       std::string a(100000, 'a');
-       std::string b(100000, 'b');
-       for (int i=0;i<1000000;i++) {
-          std::swap(a, b);
-       }
-       std::cout << a[0] << b[0] << std::endl;
+   std::string a(100000, 'a');
+   std::string b(100000, 'b');
+   for (int i=0;i<1000000;i++) {
+      std::swap(a, b);
+   }
+   std::cout << a[0] << b[0] << std::endl;
 
-       auto end = std::chrono::steady_clock::now();
-       std::cout << "Time: "
-                 << std::chrono::duration<double>(end - start).count()
-                 << " s" << std::endl;
-       return 0;
-    }
-    ```
+   auto end = std::chrono::steady_clock::now();
+   std::cout << "Time: "
+             << std::chrono::duration<double>(end - start).count()
+             << " s" << std::endl;
+   return 0;
+}
+```
 
-    ![Скриншот работы программы](06_3.png)
+![Скриншот работы программы](06_3.png)
 
 *Проверьте, изменилось ли время работы. В чем ошибка исходной программы?*
 
@@ -390,33 +381,32 @@ int main() {
 
 *Исправьте исходную программу, чтобы ускорить ее работу. Изменения не должны затрагивать общий вид программы (присваивания, использование временной переменной).*
 
-* Полный код программы (`06/move.cpp`):
-    ```cpp
-    #include <iostream>
-    #include <string>
-    #include <chrono>
-    #include <utility>
-    int main() {
-       auto start = std::chrono::steady_clock::now();
+```cpp
+#include <iostream>
+#include <string>
+#include <chrono>
+#include <utility>
+int main() {
+   auto start = std::chrono::steady_clock::now();
 
-       std::string a(100000, 'a');
-       std::string b(100000, 'b');
-       for (int i=0;i<1000000;i++) {
-          std::string c(std::move(a));
-          a = std::move(b);
-          b = std::move(c);
-       }
-       std::cout << a[0] << b[0] << std::endl;
+   std::string a(100000, 'a');
+   std::string b(100000, 'b');
+   for (int i=0;i<1000000;i++) {
+      std::string c(std::move(a));
+      a = std::move(b);
+      b = std::move(c);
+   }
+   std::cout << a[0] << b[0] << std::endl;
 
-       auto end = std::chrono::steady_clock::now();
-       std::cout << "Time: "
-                 << std::chrono::duration<double>(end - start).count()
-                 << " s" << std::endl;
-       return 0;
-    }
-    ```
+   auto end = std::chrono::steady_clock::now();
+   std::cout << "Time: "
+             << std::chrono::duration<double>(end - start).count()
+             << " s" << std::endl;
+   return 0;
+}
+```
 
-    ![Скриншот работы программы](06_2.png)
+![Скриншот работы программы](06_2.png)
 
 *Функция* `std::move` *позволяет вместо копирования использовать перемещение. При перемещении строка не копирует символы, а забирает указатель на данные у исходной строки. Общий вид программы сохранился (временная переменная и три присваивания), а время работы уменьшилось с* `9.11856` *до* `0.151729` *секунды (примерно в* `60` *раз), то есть стало сравнимо с вариантом, использующим* `swap`.
 
@@ -424,18 +414,17 @@ int main() {
 
 *Рассмотрим программу на языке* **Python**.
 
-* Полный код программы:
-    ```python
-    a = 'Hello world'
-    print(a, id(a))
-    b = a
-    print(b, id(b))
-    a += ' and goodbye'
-    print(a, id(a))
-    print(b, id(b))
-    ```
+```python
+a = 'Hello world'
+print(a, id(a))
+b = a
+print(b, id(b))
+a += ' and goodbye'
+print(a, id(a))
+print(b, id(b))
+```
 
-    ![Скриншот работы программы](07_1.png)
+![Скриншот работы программы](07_1.png)
 
 *Объясните ее работу. В какой момент создавались строки?*
 
@@ -458,38 +447,37 @@ int main() {
 
 *Напишите программу для демонстрации различий.*
 
-* Полный код программы:
-    ```python
-    a = 'Hello world'
+```python
+a = 'Hello world'
 
-    b = a
-    c = a[:]
+b = a
+c = a[:]
 
-    print('a:', a, id(a))
-    print('b = a   :', b, id(b), b is a)
-    print('c = a[:]:', c, id(c), c is a)
+print('a:', a, id(a))
+print('b = a   :', b, id(b), b is a)
+print('c = a[:]:', c, id(c), c is a)
 
-    a += '!'
-    print()
-    print('после a += "!"')
-    print('a:', a, id(a))
-    print('b:', b, id(b))
-    print('c:', c, id(c))
+a += '!'
+print()
+print('после a += "!"')
+print('a:', a, id(a))
+print('b:', b, id(b))
+print('c:', c, id(c))
 
-    print()
-    print('Для сравнения - список (изменяемый тип):')
-    x = [1, 2, 3]
-    y = x
-    z = x[:]
-    print('y is x:', y is x)
-    print('z is x:', z is x)
-    x.append(4)
-    print('x:', x)
-    print('y:', y)
-    print('z:', z)
-    ```
+print()
+print('Для сравнения - список (изменяемый тип):')
+x = [1, 2, 3]
+y = x
+z = x[:]
+print('y is x:', y is x)
+print('z is x:', z is x)
+x.append(4)
+print('x:', x)
+print('y:', y)
+print('z:', z)
+```
 
-    ![Скриншот работы программы](08_1.png)
+![Скриншот работы программы](08_1.png)
 
 Для строк разницы нет. `b = a` делает так, что `b` ссылается на тот же объект. Срез `a[:]` по смыслу создаёт копию строки, но так как строки неизменяемые, Python не создаёт копию, а возвращает тот же самый объект. Поэтому `b is a` и `c is a` равны `True`, а `id` всех трёх переменных совпадают.
 
@@ -501,21 +489,20 @@ int main() {
 
 *Напишите программу на языке* **Python**, *которая создаст 2600 переменных с именами от* **a0** *до* **a99**, *от* **b0** *до* **b99** *и так далее, от* **z0** *до* **z99**. *Присвойте всем переменным различные значения от 1 до 2600.*
 
-* Полный код программы:
-    ```python
-    value = 1
-    for letter in 'abcdefghijklmnopqrstuvwxyz':
-        for number in range(100):
-            globals()[letter + str(number)] = value
-            value += 1
+```python
+value = 1
+for letter in 'abcdefghijklmnopqrstuvwxyz':
+    for number in range(100):
+        globals()[letter + str(number)] = value
+        value += 1
 
-    print(a0, a99)
-    print(b0, b99)
-    print(m50)
-    print(z0, z99)
-    ```
+print(a0, a99)
+print(b0, b99)
+print(m50)
+print(z0, z99)
+```
 
-    ![Скриншот работы программы](09_1.png)
+![Скриншот работы программы](09_1.png)
 
 *Функция* `globals()` *возвращает словарь глобальных переменных модуля, в котором ключ - имя переменной, а значение - её значение. Добавление нового ключа в этот словарь создаёт новую глобальную переменную.*
 
